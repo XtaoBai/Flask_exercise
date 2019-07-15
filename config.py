@@ -17,3 +17,20 @@ class Config(object):
     # SQLALCHEMY_TRACK_MODIFICATIONS配置项用于设置数据发生变更之后是否发送信号给应用.
     # 此处不需要这项功能，因此将其设置为False。
 
+    # 添加邮件服务器的信息到配置文件中：
+    # 服务器，
+    # 端口（默认值25），
+    # 启用加密连接的布尔标记， 
+    # 可选用户名及密码。
+    # ADMINS配置变量是将收到错误报告的电子邮件地址列表
+
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') 
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    ADMINS = ['your-email@example.com']
+
+
+    
+
