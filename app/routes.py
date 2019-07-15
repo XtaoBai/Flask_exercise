@@ -8,6 +8,7 @@ from werkzeug.urls import url_parse
 from app import db
 from app.forms import RegistrationForm
 
+
 @app.route('/')
 @app.route('/index')
 @login_required # 页面保护 无法匿名访问
@@ -72,7 +73,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-
+# 建立注册页面：
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -87,3 +88,19 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+# 建立个人主页：
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username = username).first_or_404()
+    posts =[
+        {'author':user,'body':'Test post #1'},
+        {'author':user,'body':'Test post #2'}
+    ]
+    return render_template('user.html',user=user,posts= posts)
+
+# <>包裹为动态的；
+# 只能被已登录的用户使用所以加上 @login_required 
+# first_or_404 如果有问题会返回404 给服务器
+#  如果没有触发则找到用户 下面初始化渲染对象
